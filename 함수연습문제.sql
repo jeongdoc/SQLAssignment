@@ -6,7 +6,7 @@
 SELECT  EMP_NAME 이름,
         RPAD( SUBSTR( EMP_NO, 1, INSTR( EMP_NO, '-')+1), 14, '*' ) 주민등록번호
 FROM    EMPLOYEE;
---
+
 --2. 직원명, 직급코드, 연봉(원) 조회
 --  단, 연봉은 ￦57,000,000 으로 표시되게 함
 --     연봉은 보너스포인트가 적용된 1년치 급여임
@@ -26,7 +26,7 @@ WHERE   DEPT_ID IN( '50', '90' ) AND TO_CHAR( HIRE_DATE, 'YYYY') = '2004';
 SELECT  EMP_NAME 직원명, HIRE_DATE 입사일,
         LAST_DAY( HIRE_DATE ) - HIRE_DATE || '일' "입사한 달의 근무일수"
 FROM    EMPLOYEE;
---
+
 --5. 직원명, 부서코드, 생년월일, 나이(만) 조회
 --  단, 생년월일은 주민번호에서 추출해서, 
 --     ㅇㅇ년 ㅇㅇ월 ㅇㅇ일로 출력되게 함.
@@ -35,7 +35,7 @@ SELECT  EMP_NAME 직원명, DEPT_ID 부서코드,
         TO_CHAR( TO_DATE( SUBSTR( EMP_NO, 1, 4 ), 'RRMM' ), 'YY"년" MM"월" DD"일"' ) 생년월일,
         EXTRACT( YEAR FROM SYSDATE ) - EXTRACT( YEAR FROM TO_DATE( SUBSTR( EMP_NO, 1, 4 ), 'RRMM' ) ) 나이
 FROM    EMPLOYEE;
---
+
 --6. 직원들의 입사일로 부터 년도만 가지고, 각 년도별 입사인원수를 구하시오.
 --  아래의 년도에 입사한 인원수를 조회하시오.
 --  => to_char, decode, sum 사용
@@ -48,7 +48,7 @@ SELECT  SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), TO_CHAR( HIRE_DATE, 'RR'), 1 ) )
         SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 03, 1 ) ) "2003년",
         SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 04, 1 ) ) "2004년"
 FROM    EMPLOYEE;
---
+
 --7.  부서코드가 50이면 총무부, 60이면 기획부, 90이면 영업부로 처리하시오.
 --   단, 부서코드가 50, 60, 90 인 직원의 정보만 조회함
 --  => case 사용
