@@ -1,64 +1,65 @@
--- ÇÔ¼ö ¿¬½À¹®Á¦
+-- í•¨ìˆ˜ ì—°ìŠµë¬¸ì œ
 --
---1. Á÷¿ø¸í°ú ÁÖ¹Î¹øÈ£¸¦ Á¶È¸ÇÔ
---  ´Ü, ÁÖ¹Î¹øÈ£ 9¹øÂ° ÀÚ¸®ºÎÅÍ ³¡±îÁö´Â '*'¹®ÀÚ·Î Ã¤¿ò
---  ¿¹ : È«±æµ¿ 771120-1******
-SELECT  EMP_NAME ÀÌ¸§,
-        RPAD( SUBSTR( EMP_NO, 1, INSTR( EMP_NO, '-')+1), 14, '*' ) ÁÖ¹Îµî·Ï¹øÈ£
+--1. ì§ì›ëª…ê³¼ ì£¼ë¯¼ë²ˆí˜¸ë¥¼ ì¡°íšŒí•¨
+--  ë‹¨, ì£¼ë¯¼ë²ˆí˜¸ 9ë²ˆì§¸ ìžë¦¬ë¶€í„° ëê¹Œì§€ëŠ” '*'ë¬¸ìžë¡œ ì±„ì›€
+--  ì˜ˆ : í™ê¸¸ë™ 771120-1******
+SELECT  EMP_NAME ì´ë¦„,
+        RPAD( SUBSTR( EMP_NO, 1, INSTR( EMP_NO, '-')+1), 14, '*' ) ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸
+FROM    EMPLOYEE;
+
+--2. ì§ì›ëª…, ì§ê¸‰ì½”ë“œ, ì—°ë´‰(ì›) ì¡°íšŒ
+--  ë‹¨, ì—°ë´‰ì€ ï¿¦57,000,000 ìœ¼ë¡œ í‘œì‹œë˜ê²Œ í•¨
+--     ì—°ë´‰ì€ ë³´ë„ˆìŠ¤í¬ì¸íŠ¸ê°€ ì ìš©ëœ 1ë…„ì¹˜ ê¸‰ì—¬ìž„
+SELECT  EMP_NAME ì§ì›ëª…, JOB_ID ì§ê¸‰ì½”ë“œ,
+        TO_CHAR( ( SALARY + (SALARY * NVL( BONUS_PCT, 0 ) ) ) * 12, 'L999,999,999') ì—°ë´‰
 FROM    EMPLOYEE;
 --
---2. Á÷¿ø¸í, Á÷±ÞÄÚµå, ¿¬ºÀ(¿ø) Á¶È¸
---  ´Ü, ¿¬ºÀÀº £Ü57,000,000 À¸·Î Ç¥½ÃµÇ°Ô ÇÔ
---     ¿¬ºÀÀº º¸³Ê½ºÆ÷ÀÎÆ®°¡ Àû¿ëµÈ 1³âÄ¡ ±Þ¿©ÀÓ
-SELECT  EMP_NAME Á÷¿ø¸í, JOB_ID Á÷±ÞÄÚµå,
-        TO_CHAR( ( SALARY + (SALARY * NVL( BONUS_PCT, 0 ) ) ) * 12, 'L999,999,999') ¿¬ºÀ
-FROM    EMPLOYEE;
---
---3. ºÎ¼­ÄÚµå°¡ 50, 90ÀÎ Á÷¿øµé Áß¿¡¼­ 2004³âµµ¿¡ ÀÔ»çÇÑ Á÷¿øÀÇ 
---   ¼ö Á¶È¸ÇÔ.
---	»ç¹ø »ç¿ø¸í ºÎ¼­ÄÚµå ÀÔ»çÀÏ
-SELECT  EMP_ID »ç¹ø, EMP_NAME »ç¿ø¸í, DEPT_ID ºÎ¼­ÄÚµå, HIRE_DATE ÀÔ»çÀÏ
+--3. ë¶€ì„œì½”ë“œê°€ 50, 90ì¸ ì§ì›ë“¤ ì¤‘ì—ì„œ 2004ë…„ë„ì— ìž…ì‚¬í•œ ì§ì›ì˜ 
+--   ìˆ˜ ì¡°íšŒí•¨.
+--	ì‚¬ë²ˆ ì‚¬ì›ëª… ë¶€ì„œì½”ë“œ ìž…ì‚¬ì¼
+SELECT  EMP_ID ì‚¬ë²ˆ, EMP_NAME ì‚¬ì›ëª…, DEPT_ID ë¶€ì„œì½”ë“œ, HIRE_DATE ìž…ì‚¬ì¼
 FROM    EMPLOYEE
 WHERE   DEPT_ID IN( '50', '90' ) AND TO_CHAR( HIRE_DATE, 'YYYY') = '2004';
 
---4. Á÷¿ø¸í, ÀÔ»çÀÏ, ÀÔ»çÇÑ ´ÞÀÇ ±Ù¹«ÀÏ¼ö Á¶È¸
---  ´Ü, ÁÖ¸»µµ Æ÷ÇÔÇÔ
-SELECT  EMP_NAME Á÷¿ø¸í, HIRE_DATE ÀÔ»çÀÏ,
-        LAST_DAY( HIRE_DATE ) - HIRE_DATE || 'ÀÏ' "ÀÔ»çÇÑ ´ÞÀÇ ±Ù¹«ÀÏ¼ö"
+--4. ì§ì›ëª…, ìž…ì‚¬ì¼, ìž…ì‚¬í•œ ë‹¬ì˜ ê·¼ë¬´ì¼ìˆ˜ ì¡°íšŒ
+--  ë‹¨, ì£¼ë§ë„ í¬í•¨í•¨
+SELECT  EMP_NAME ì§ì›ëª…, HIRE_DATE ìž…ì‚¬ì¼,
+        LAST_DAY( HIRE_DATE ) - HIRE_DATE || 'ì¼' "ìž…ì‚¬í•œ ë‹¬ì˜ ê·¼ë¬´ì¼ìˆ˜"
 FROM    EMPLOYEE;
---
---5. Á÷¿ø¸í, ºÎ¼­ÄÚµå, »ý³â¿ùÀÏ, ³ªÀÌ(¸¸) Á¶È¸
---  ´Ü, »ý³â¿ùÀÏÀº ÁÖ¹Î¹øÈ£¿¡¼­ ÃßÃâÇØ¼­, 
---     ¤·¤·³â ¤·¤·¿ù ¤·¤·ÀÏ·Î Ãâ·ÂµÇ°Ô ÇÔ.
---  ³ªÀÌ´Â ÁÖ¹Î¹øÈ£¿¡¼­ ÃßÃâÇØ¼­ ³¯Â¥µ¥ÀÌÅÍ·Î º¯È¯ÇÑ ´ÙÀ½, °è»êÇÔ
-SELECT  EMP_NAME Á÷¿ø¸í, DEPT_ID ºÎ¼­ÄÚµå,
-        TO_CHAR( TO_DATE( SUBSTR( EMP_NO, 1, 4 ), 'RRMM' ), 'YY"³â" MM"¿ù" DD"ÀÏ"' ) »ý³â¿ùÀÏ,
-        EXTRACT( YEAR FROM SYSDATE ) - EXTRACT( YEAR FROM TO_DATE( SUBSTR( EMP_NO, 1, 4 ), 'RRMM' ) ) ³ªÀÌ
+
+--5. ì§ì›ëª…, ë¶€ì„œì½”ë“œ, ìƒë…„ì›”ì¼, ë‚˜ì´(ë§Œ) ì¡°íšŒ
+--  ë‹¨, ìƒë…„ì›”ì¼ì€ ì£¼ë¯¼ë²ˆí˜¸ì—ì„œ ì¶”ì¶œí•´ì„œ, 
+--     ã…‡ã…‡ë…„ ã…‡ã…‡ì›” ã…‡ã…‡ì¼ë¡œ ì¶œë ¥ë˜ê²Œ í•¨.
+--  ë‚˜ì´ëŠ” ì£¼ë¯¼ë²ˆí˜¸ì—ì„œ ì¶”ì¶œí•´ì„œ ë‚ ì§œë°ì´í„°ë¡œ ë³€í™˜í•œ ë‹¤ìŒ, ê³„ì‚°í•¨
+SELECT  EMP_NAME ì§ì›ëª…, DEPT_ID ë¶€ì„œì½”ë“œ,
+        TO_CHAR( TO_DATE( SUBSTR( EMP_NO, 1, 4 ), 'RRMM' ), 'YY"ë…„" MM"ì›”" DD"ì¼"' ) ìƒë…„ì›”ì¼,
+        EXTRACT( YEAR FROM SYSDATE ) - EXTRACT( YEAR FROM TO_DATE( SUBSTR( EMP_NO, 1, 4 ), 'RRMM' ) ) ë‚˜ì´
 FROM    EMPLOYEE;
---
---6. Á÷¿øµéÀÇ ÀÔ»çÀÏ·Î ºÎÅÍ ³âµµ¸¸ °¡Áö°í, °¢ ³âµµº° ÀÔ»çÀÎ¿ø¼ö¸¦ ±¸ÇÏ½Ã¿À.
---  ¾Æ·¡ÀÇ ³âµµ¿¡ ÀÔ»çÇÑ ÀÎ¿ø¼ö¸¦ Á¶È¸ÇÏ½Ã¿À.
---  => to_char, decode, sum »ç¿ë
+
+--6. ì§ì›ë“¤ì˜ ìž…ì‚¬ì¼ë¡œ ë¶€í„° ë…„ë„ë§Œ ê°€ì§€ê³ , ê° ë…„ë„ë³„ ìž…ì‚¬ì¸ì›ìˆ˜ë¥¼ êµ¬í•˜ì‹œì˜¤.
+--  ì•„ëž˜ì˜ ë…„ë„ì— ìž…ì‚¬í•œ ì¸ì›ìˆ˜ë¥¼ ì¡°íšŒí•˜ì‹œì˜¤.
+--  => to_char, decode, sum ì‚¬ìš©
 --	-------------------------------------------------------------
---	ÀüÃ¼Á÷¿ø¼ö   2001³â   2002³â   2003³â   2004³â
+--	ì „ì²´ì§ì›ìˆ˜   2001ë…„   2002ë…„   2003ë…„   2004ë…„
 --	-------------------------------------------------------------
-SELECT  SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), TO_CHAR( HIRE_DATE, 'RR'), 1 ) ) ÀüÃ¼Á÷¿ø¼ö,
-        SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 01, 1 ) ) "2001³â",
-        SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 02, 1 ) ) "2002³â",
-        SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 03, 1 ) ) "2003³â",
-        SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 04, 1 ) ) "2004³â"
+SELECT  SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), TO_CHAR( HIRE_DATE, 'RR'), 1 ) ) ì „ì²´ì§ì›ìˆ˜,
+        SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 01, 1 ) ) "2001ë…„",
+        SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 02, 1 ) ) "2002ë…„",
+        SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 03, 1 ) ) "2003ë…„",
+        SUM( DECODE( TO_CHAR( HIRE_DATE, 'RR'), 04, 1 ) ) "2004ë…„"
 FROM    EMPLOYEE;
---
---7.  ºÎ¼­ÄÚµå°¡ 50ÀÌ¸é ÃÑ¹«ºÎ, 60ÀÌ¸é ±âÈ¹ºÎ, 90ÀÌ¸é ¿µ¾÷ºÎ·Î Ã³¸®ÇÏ½Ã¿À.
---   ´Ü, ºÎ¼­ÄÚµå°¡ 50, 60, 90 ÀÎ Á÷¿øÀÇ Á¤º¸¸¸ Á¶È¸ÇÔ
---  => case »ç¿ë
---	ºÎ¼­ÄÚµå ±âÁØ ¿À¸§Â÷¼ø Á¤·ÄÇÔ.
+
+--7.  ë¶€ì„œì½”ë“œê°€ 50ì´ë©´ ì´ë¬´ë¶€, 60ì´ë©´ ê¸°íšë¶€, 90ì´ë©´ ì˜ì—…ë¶€ë¡œ ì²˜ë¦¬í•˜ì‹œì˜¤.
+--   ë‹¨, ë¶€ì„œì½”ë“œê°€ 50, 60, 90 ì¸ ì§ì›ì˜ ì •ë³´ë§Œ ì¡°íšŒí•¨
+--  => case ì‚¬ìš©
+--	ë¶€ì„œì½”ë“œ ê¸°ì¤€ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬í•¨.
 SELECT  EMP_NAME,
         CASE DEPT_ID 
-            WHEN '50' THEN 'ÃÑ¹«ºÎ'
-            WHEN '60' THEN '±âÈ¹ºÎ'
-            WHEN '90' THEN '¿µ¾÷ºÎ'
+            WHEN '50' THEN 'ì´ë¬´ë¶€'
+            WHEN '60' THEN 'ê¸°íšë¶€'
+            WHEN '90' THEN 'ì˜ì—…ë¶€'
         END
 FROM    EMPLOYEE
 WHERE   DEPT_ID IN (50, 60, 90)
 ORDER BY DEPT_ID;
+ 
