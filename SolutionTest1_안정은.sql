@@ -124,13 +124,13 @@ GROUP BY PROFESSOR_NAME;
 
 -- EXISTS
 SELECT  N 지도교수, C 학생수
-FROM    (SELECT   PROFESSOR_NAME N, COUNT(*) C -- 별칭처리
-         FROM     TB_PROFESSOR E
-         JOIN     TB_STUDENT S ON (E.PROFESSOR_NO = S.COACH_PROFESSOR_NO)
-         WHERE    NOT EXISTS ( SELECT NULL
-                               FROM   TB_CLASS_PROFESSOR F
-                               WHERE  E.PROFESSOR_NO = F.PROFESSOR_NO )
-                               GROUP BY PROFESSOR_NAME ) 
+FROM    ( SELECT   PROFESSOR_NAME N, COUNT(*) C -- 별칭처리
+          FROM     TB_PROFESSOR E
+          JOIN     TB_STUDENT S ON (E.PROFESSOR_NO = S.COACH_PROFESSOR_NO)
+          WHERE    NOT EXISTS ( SELECT NULL
+                                FROM   TB_CLASS_PROFESSOR F
+                                WHERE  E.PROFESSOR_NO = F.PROFESSOR_NO ) -- 상관 SUB QUERY
+         GROUP BY PROFESSOR_NAME ) -- INLINE VIEW
 GROUP BY N, C;
 
 -- SELECT PROFESSOR_NO FROM TB_PROFESSOR WHERE  PROFESSOR_NAME = '허문표';
