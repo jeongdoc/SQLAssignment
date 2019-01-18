@@ -1,8 +1,8 @@
-/* ¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬
+/* â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
                 FINAL WORKSHOP
-   ¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬¦¬ */
+   â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â” */
 -- QUESTION 01
-SELECT (A.C1 + B.C2 + C.C3 + D.C4) "ÃÑ µ¥ÀÌÅÍ °³¼ö"
+SELECT (A.C1 + B.C2 + C.C3 + D.C4) "ì´ ë°ì´í„° ê°œìˆ˜"
 FROM   ( SELECT COUNT(*) C1 FROM TB_BOOK ) A,
        ( SELECT COUNT(*) C2 FROM TB_BOOK_AUTHOR ) B,
        ( SELECT COUNT(*) C3 FROM TB_PUBLISHER ) C,
@@ -26,7 +26,7 @@ FROM    TB_BOOK
 WHERE   LENGTH(BOOK_NM) >= 25;
 
 -- QUESTION 04
-SELECT   NM ÀÌ¸§, OT »ç¹«½ÇÀüÈ­¹øÈ£, HT ÁýÀüÈ­¹øÈ£, MN ÈÞ´ëÆù¹øÈ£
+SELECT   NM ì´ë¦„, OT ì‚¬ë¬´ì‹¤ì „í™”ë²ˆí˜¸, HT ì§‘ì „í™”ë²ˆí˜¸, MN íœ´ëŒ€í°ë²ˆí˜¸
 FROM     ( SELECT  WRITER_NM NM,
                    OFFICE_TELNO OT,
                    HOME_TELNO HT,
@@ -34,35 +34,35 @@ FROM     ( SELECT  WRITER_NM NM,
                    RANK() OVER (ORDER BY WRITER_NM ASC) RNK
            FROM TB_WRITER
            WHERE MOBILE_NO LIKE '019%'
-                 AND WRITER_NM LIKE '±è%' ) -- ÀÎ¶óÀÎ ºä
+                 AND WRITER_NM LIKE 'ê¹€%' ) -- ì¸ë¼ì¸ ë·°
 WHERE    RNK = 1;
 
 -- QUESTION 05
 SELECT  COUNT(*)
 FROM    (SELECT DISTINCT WRITER_NO
          FROM   TB_BOOK_AUTHOR
-         WHERE  COMPOSE_TYPE = '¿Å±è') F,
+         WHERE  COMPOSE_TYPE = 'ì˜®ê¹€') F,
          TB_WRITER W
 WHERE   F.WRITER_NO = W.WRITER_NO;
 
 -- QUESTION 06
-SELECT   COMPOSE_TYPE ÀúÀÛÇüÅÂ, COUNT(*) µµ¼­¼ö·®
+SELECT   COMPOSE_TYPE ì €ìž‘í˜•íƒœ, COUNT(*) ë„ì„œìˆ˜ëŸ‰
 FROM     TB_BOOK_AUTHOR
 WHERE    COMPOSE_TYPE IS NOT NULL
 GROUP BY COMPOSE_TYPE
 HAVING   COUNT(*) >= 300;
 
 -- QUESTION 07
-SELECT  B ÃÖ½ÅÃ¥ÀÌ¸§, A ¹ßÇàÀÏÀÚ, P ÃâÆÇ»ç
+SELECT  B ìµœì‹ ì±…ì´ë¦„, A ë°œí–‰ì¼ìž, P ì¶œíŒì‚¬
 FROM    ( SELECT ISSUE_DATE A, BOOK_NM B, PUBLISHER_NM P
           FROM TB_BOOK
           ORDER BY 1 DESC )
 WHERE ROWNUM = 1;
 
 -- QUESTION 08
-SELECT  ÀÛ°¡, ±Ç¼ö
-FROM    ( SELECT    WRITER_NM ÀÛ°¡,
-                    COUNT(*) ±Ç¼ö,
+SELECT  ìž‘ê°€, ê¶Œìˆ˜
+FROM    ( SELECT    WRITER_NM ìž‘ê°€,
+                    COUNT(*) ê¶Œìˆ˜,
                     RANK() OVER(ORDER BY COUNT(*) DESC) RNK
           FROM      TB_WRITER W, TB_BOOK_AUTHOR A
           WHERE     W.WRITER_NO = A.WRITER_NO
@@ -73,7 +73,7 @@ WHERE   RNK < 4;
     
 --select issue_date from tb_book
 --order by 1;
--- ¹®Á¦ Àß¸øº½ ¤»
+-- ë¬¸ì œ ìž˜ëª»ë´„ ã…‹
 -- UPDATE TB_WRITER
 -- SET REGIST_DATE = ( SELECT  A
 --                     FROM    (SELECT ISSUE_DATE A
@@ -108,22 +108,100 @@ CREATE TABLE TB_BOOK_TRANSLATOR
  CONSTRAINT FK_BOOK_TARNSLATOR_02 FOREIGN KEY (WRITER_NO) REFERENCES TB_WRITER(WRITER_NO)
 );
 
-COMMENT ON COLUMN TB_BOOK_TRANSLATOR.BOOK_NO IS 'µµ¼­¹øÈ£';
-COMMENT ON COLUMN TB_BOOK_TRANSLATOR.WRITER_NO IS 'ÀÛ°¡¹øÈ£';
-COMMENT ON COLUMN TB_BOOK_TRANSLATOR.TRANS_LANG IS '¹ø¿ª¾ð¾î';
+COMMENT ON COLUMN TB_BOOK_TRANSLATOR.BOOK_NO IS 'ë„ì„œë²ˆí˜¸';
+COMMENT ON COLUMN TB_BOOK_TRANSLATOR.WRITER_NO IS 'ìž‘ê°€ë²ˆí˜¸';
+COMMENT ON COLUMN TB_BOOK_TRANSLATOR.TRANS_LANG IS 'ë²ˆì—­ì–¸ì–´';
 
 -- QUESTION 11
 INSERT INTO TB_BOOK_TRANSLATOR (BOOK_NO, WRITER_NO)
 (
  SELECT BOOK_NO, WRITER_NO
  FROM   TB_BOOK_AUTHOR
- WHERE  COMPOSE_TYPE IN ('¿Å±è','¿ªÁÖ','Æí¿ª','°ø¿ª')
+ WHERE  COMPOSE_TYPE IN ('ì˜®ê¹€','ì—­ì£¼','íŽ¸ì—­','ê³µì—­')
 );
 
 DELETE TB_BOOK_AUTHOR
-WHERE COMPOSE_TYPE IN ('¿Å±è','¿ªÁÖ','Æí¿ª','°ø¿ª');
+WHERE COMPOSE_TYPE IN ('ì˜®ê¹€','ì—­ì£¼','íŽ¸ì—­','ê³µì—­');
 
 ROLLBACK;
 SELECT  * FROM TB_BOOK_TRANSLATOR;
 SELECT  DISTINCT COMPOSE_TYPE FROM TB_BOOK_AUTHOR
-WHERE COMPOSE_TYPE = '¿ªÁÖ';
+WHERE COMPOSE_TYPE = 'ì—­ì£¼';
+                             
+-- QUESTION 12
+SELECT  B.BOOK_NM, W.WRITER_NM
+FROM    TB_BOOK_TRANSLATOR T, TB_WRITER W, TB_BOOK B
+WHERE   T.WRITER_NO = W.WRITER_NO
+        AND T.BOOK_NO = B.BOOK_NO
+        AND T.BOOK_NO LIKE '2007%';
+        
+-- QUESTION 13
+CREATE OR REPLACE VIEW VW_BOOK_TRANSLATOR
+AS  SELECT  *
+    FROM    (SELECT ISSUE_DATE
+             FROM   TB_BOOK B, TB_BOOK_TRANSLATOR T
+             WHERE  B.BOOK_NO = T.BOOK_NO)
+WITH READ ONLY;
+
+select  * from vw_book_translator;
+
+-- QUESTION 14
+INSERT INTO TB_PUBLISHER
+VALUES ('ì¶˜ ì¶œíŒì‚¬','02-6710-3737',DEFAULT);
+
+-- QUESTION 15
+SELECT   WRITER_NM ì´ë¦„, COUNT(*) "ë™ëª…ì¸ ìˆ˜"
+FROM     TB_WRITER
+GROUP BY WRITER_NM
+HAVING   COUNT(*) > 1;
+
+-- QUESTION 16
+UPDATE  TB_BOOK_AUTHOR
+SET     COMPOSE_TYPE = 'ì§€ìŒ'
+WHERE   COMPOSE_TYPE IS NULL;
+
+COMMIT;
+
+-- QUESTION 17
+SELECT  WRITER_NM, 
+        OFFICE_TELNO
+FROM    TB_WRITER
+WHERE   OFFICE_TELNO LIKE '02%'
+        AND LENGTH(OFFICE_TELNO) = 11;
+
+        
+-- QUESTION 18
+SELECT  WRITER_NM,  2006 - TO_CHAR(REGIST_DATE, 'YYYY')
+FROM    TB_WRITER
+WHERE   2006 - TO_CHAR(REGIST_DATE, 'YYYY') >= 31;
+
+-- QUESTION 19
+SELECT   BOOK_NM ë„ì„œëª…, 
+         PRICE ê°€ê²©,
+         CASE WHEN STOCK_QTY < 5 THEN 'ì¶”ê°€ì£¼ë¬¸í•„ìš”'
+              ELSE 'ì†ŒëŸ‰ë³´ìœ '
+         END AS ìž¬ê³ ìƒíƒœ
+FROM     TB_BOOK
+WHERE    PUBLISHER_NM = 'í™©ê¸ˆê°€ì§€'
+         AND STOCK_QTY < 10
+ORDER BY 3 DESC, 1;
+
+-- QUSETION 20
+SELECT  ë„ì„œëª…, TW.WRITER_NM ì €ìž, ì—­ìž
+FROM    ( SELECT  B.BOOK_NM ë„ì„œëª…, W.WRITER_NM ì—­ìž, A.WRITER_NO WN
+          FROM    TB_BOOK B, TB_WRITER W, TB_BOOK_TRANSLATOR T, TB_BOOK_AUTHOR A
+          WHERE   T.BOOK_NO = B.BOOK_NO
+                  AND T.WRITER_NO = W.WRITER_NO
+                  AND A.BOOK_NO = B.BOOK_NO
+                  AND B.BOOK_NM = 'ì•„íƒ€íŠ¸ë¡¤' ) F,
+        TB_WRITER TW
+WHERE   TW.WRITER_NO = F.WN;
+
+-- QUESTION 21
+SELECT  BOOK_NM ë„ì„œëª…, STOCK_QTY ìž¬ê³ ìˆ˜ëŸ‰, PRICE "ê°€ê²©(Org)",
+        (PRICE * 0.8) "ê°€ê²©(New)"
+FROM    TB_BOOK
+WHERE   TO_CHAR(SYSDATE, 'YYYY') - TO_CHAR(ISSUE_DATE, 'YYYY') > 30
+        AND STOCK_QTY > 89
+ORDER BY 2 DESC, 4 DESC, 1;
+
